@@ -1,6 +1,7 @@
 module lie {
 
 	var code = 0;	// 标志
+	var LEvent = Laya.Event;
 
 	/**
 	 * 龙骨精灵
@@ -35,8 +36,9 @@ module lie {
 		 */
 		protected onComplete(): void {
 			var self = this;
-			var LEvent = Laya.Event;
 			var armature = self.$armature = self.$factory.buildArmature(1);
+			self.removeChildAt(0);
+			armature.zOrder = -1;
 			self.addChild(armature);
 			// 监听
 			armature.on(LEvent.STOPPED, self, self.onStop);
@@ -204,7 +206,7 @@ module lie {
 		public set skeleton(sk: string) {
 			var self = this;
 			var mFactory = self.$factory = new Laya.Templet();
-			mFactory.on(Laya.Event.COMPLETE, self, self.onComplete);
+			mFactory.on(LEvent.COMPLETE, self, self.onComplete);
 			mFactory.loadAni(RES.getUrl(sk));
 		}
 	}
